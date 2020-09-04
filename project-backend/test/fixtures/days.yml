@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  trip: one
+  date: 2020-09-04
+
+two:
+  trip: two
+  date: 2020-09-04
