@@ -25,3 +25,4 @@ end
 100.times do
     Visit.create(day_id: rand(1..90), attraction_id: rand(1..30), rating: rand(1..5))
 end
+
