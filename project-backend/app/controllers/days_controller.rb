@@ -2,12 +2,12 @@ class DaysController < ApplicationController
 
     def index
         days = Day.all
-        render json: days
+        render json: days, include: [:trip]
     end
 
     def show
         day = Day.find(params[:id])
-        render json: day
+        render json: day, include: [:trip]
     end
 
     def create
