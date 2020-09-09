@@ -3,7 +3,7 @@
 
 <head>
     <link rel="stylesheet" href="./styles.css">
-    
+    <script src="src/index.js"></script>
 </head>
 
 <body>
@@ -13,7 +13,7 @@
             <ul id="destination-ul">
             </ul>
         </div>
-        <button>+</button>
+        <button id="add-destination">+</button>
     </div>
 
     <div id="main-div">
@@ -32,12 +32,21 @@
             <ul id="attraction-ul">
             </ul>
         </div>
-        <button>+</button>
+        <button id="add-attraction">+</button>
     </div>
 
-    <div id="modal">
-        <div id="modal-content">
-            <p>text</p>
+    <div class="modal">
+        <div class="modal-content">
+            <div class="left">
+                <h3>Name of Destination</h3>
+                <img src="https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80">
+            </div>
+            <div class="right">
+                <button id="close-modal">X</button>
+                <div id="description">
+                <p>lorem ipsum etc etc etc etc etc etc etc etc</p>
+                </div>
+            </div>
         </div>
     </div>
     <script src="src/index.js"></script>

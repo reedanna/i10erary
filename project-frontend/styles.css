@@ -63,9 +63,6 @@ h2 {
 }
 
 button {
-    position: absolute;
-    bottom: 15px;
-    right: 10px;
     font-size: 32px;
     padding: 2px 10px;
     background: #E63946;
@@ -73,6 +70,12 @@ button {
     border: none;
     border-radius: 5px;
     box-shadow: 0 3px #A31420;
+}
+
+#attractions-bar button, #destinations-bar button, #main-div button {
+    position: absolute;
+    bottom: 15px;
+    right: 10px;
 }
 
 button:hover {
@@ -151,7 +154,7 @@ button:active {
     background: #F1FAEE;
 }
 
-#modal {
+.modal {
     display: none; 
     position: fixed; 
     z-index: 1; 
@@ -164,10 +167,26 @@ button:active {
     background-color: rgba(0,0,0,0.4); 
 }
 
-#modal-content {
+.modal-content {
     background-color: #F1FAEE;
     margin: auto;
     padding: 20px;
     border: 3px solid #457B9D;
     width: 80%; 
+    overflow:hidden;
 }
+
+.modal-content img {
+    width: 300px;
+    height: 300px;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+    width: 70%;
+}
+
