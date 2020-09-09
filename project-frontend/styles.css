@@ -10,11 +10,11 @@ body {
     border-radius: 10px;
     min-height: 95%;
     min-width: 10%;
-    box-sizing: border-box;
     position: fixed;
     top: 15px;
     left: 15px;
     background: #A8DADC;
+    border: 3px solid #457B9D;
 }
 
 h2 {
@@ -27,15 +27,15 @@ h2 {
 
 button {
     position: absolute;
-    bottom: 10px;
+    bottom: 15px;
     right: 10px;
     font-size: 32px;
     padding: 2px 10px;
     background: #E63946;
     color: #F1FAEE;
-    border: 3px solid;
-    border-color:  #F1FAEE;
+    border: none;
     border-radius: 5px;
+    box-shadow: 0 3px #A31420;
 }
 
 button:hover {
@@ -44,28 +44,32 @@ button:hover {
 
 button:active {
     background: #EC5B67;
+    box-shadow: none;
+    transform: translateY(3px);
 }
 
 #attractions-bar {
     border-radius: 10px;
-    min-height: 15%;
-    min-width: 85%;
+    min-height: 16%;
+    min-width: 86%;
     box-sizing: border-box;
     position: fixed;
     bottom: 15px;
     right: 15px;
     background: #A8DADC;
+    border: 3px solid #457B9D;
 }
 
 #main-div {
     border-radius: 10px;
     min-height: 80%;
-    min-width: 85%;
+    min-width: 86%;
     box-sizing: border-box;
     position: fixed;
     right: 15px;
-    top: 15px;
+    top: 10px;
     background: #A8DADC;
+    border: 3px solid #457B9D;
 }
 
 #header {
@@ -102,6 +106,6 @@ button:active {
     background-color: #F1FAEE;
     margin: auto;
     padding: 20px;
-    border: 1px solid #457B9D;
+    border: 3px solid #457B9D;
     width: 80%; 
 }
