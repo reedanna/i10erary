@@ -122,7 +122,7 @@ button:active {
     background: #F1FAEE;
 }
 
-#modal {
+.modal {
     display: none; 
     position: fixed; 
     z-index: 1; 
@@ -135,7 +135,7 @@ button:active {
     background-color: rgba(0,0,0,0.4); 
 }
 
-#modal-content {
+.modal-content {
     background-color: #F1FAEE;
     margin: auto;
     padding: 20px;
@@ -144,7 +144,7 @@ button:active {
     overflow:hidden;
 }
 
-#modal-content img {
+.modal-content img {
     width: 300px;
     height: 300px;
 }

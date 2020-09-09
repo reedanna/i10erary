@@ -10,8 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     destinationUl = document.querySelector("#destination-ul")
     attractionUl = document.querySelector("#attraction-ul")
-    modal = document.querySelector("#modal")
-    modalContent = document.querySelector("#modal-content")
+    modal = document.querySelector(".modal")
+    modalContent = document.querySelector(".modal-content")
     closeModalButton = document.querySelector("#close-modal")
     newDestinationButton = document.querySelector("#add-destination")
     newAttractionButton = document.querySelector("#add-attraction");
@@ -33,10 +33,10 @@ document.addEventListener("DOMContentLoaded", () => {
         })
 
     newDestinationButton.addEventListener("click", () => {
-        renderDestinationForm();
+        renderNewForm("Destination");
     })
     newAttractionButton.addEventListener("click", () => {
-        renderAttractionForm();
+        renderNewForm("Attraction");
     })
     closeModalButton.addEventListener("click", () => {
         modal.style.display = "none";
@@ -54,14 +54,14 @@ function renderDestinations(destinations) {
         li.setAttribute("data-id", destination.id)
 
         li.addEventListener("click", () => {
-            describeLocation(destination);
+            describeLocation(destination, true);
         });
 
         destinationUl.append(li)
     })
 }
 
-function describeLocation(location) {
+function describeLocation(location, isDestination) {
     modal.style.display = "block";
     modalContent.querySelector("div.left").innerHTML =
         `<h3>${location.name}</h3>
@@ -69,7 +69,12 @@ function describeLocation(location) {
     modalContent.querySelector("#description").innerHTML =
         `<p>${location.description}</p>`;
     let addButton = document.createElement("button");
-    addButton.innerHTML = "Create a Vacation Here";
+    if (isDestination == true) {
+        addButton.innerHTML = "Create a Vacation Here";
+    }
+    else {
+        addButton.innerHTML = "Visit Here";
+    }
     modalContent.querySelector("#description").append(addButton);
 }
 
@@ -84,19 +89,19 @@ function renderAttractions(attractions) {
         li.setAttribute("data-id", attraction.id)
 
         li.addEventListener("click", () => {
-            describeLocation(attraction);
+            describeLocation(attraction, false);
         });
 
         attractionUl.append(li)
     })
 }
 
-function renderDestinationForm() {
+function renderNewForm(destinationOrAttraction) {
     modal.style.display = "block";
     modalContent.querySelector("div.left").innerHTML =
-        `<h3>Add Unlisted Destination</h3>`;
+        `<h3>Add Unlisted ${destinationOrAttraction}</h3>`;
     modalContent.querySelector("#description").innerHTML =
-        `<form  id="new-destination">
+        `<form  id="new-${destinationOrAttraction}">
 
         <input
           type="text"
@@ -129,48 +134,4 @@ function renderDestinationForm() {
           class="submit"
         />
       </form>`
-    const destinationForm = document.querySelector("#new-destination");
-    console.log(destinationForm);
-}
-
-function renderAttractionForm() {
-    modal.style.display = "block";
-    modalContent.querySelector("div.left").innerHTML =
-        `<h3>Add Unlisted Attraction</h3>`;
-    modalContent.querySelector("#description").innerHTML =
-        `<form  id="new-attraction">
-
-        <input
-          type="text"
-          name="name"
-          value=""
-          placeholder="Name"
-          class="input-text"
-        />
-        <br /><br />
-        <input
-          type="text"
-          name="image"
-          value=""
-          placeholder="Image URL"
-          class="input-text"
-        />
-        <br /><br />
-        <input
-          type="text"
-          name="description"
-          value=""
-          placeholder="Description"
-          class="input-text"
-        />
-        <br /><br />
-        <input
-          type="submit"
-          name="submit"
-          value="Submit"
-          class="submit"
-        />
-      </form>`
-    const attractionForm = document.querySelector("#new-attraction");
-    console.log(attractionForm);
 }
