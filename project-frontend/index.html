@@ -1,37 +1,45 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<link rel="stylesheet" href="./styles.css">
-<script src="src/index.js"></script>
+    <link rel="stylesheet" href="./styles.css">
+    
 </head>
 
 <body>
-<div id="destinations-bar">
-    <h2>Destinations</h2>
-    <div id="destinations-container"></div>
-    <button>+</button>
-</div>
+    <div id="destinations-bar">
+        <h2>Destinations</h2>
+        <div id="destinations-container">
+            <ul id="destination-ul">
+            </ul>
+        </div>
+        <button>+</button>
+    </div>
 
-<div id="main-div">
-    <div id="header">
-        <div id="logo"></div>
-        <div id="user-info">
-            <button>My Vacations</button>
+    <div id="main-div">
+        <div id="header">
+            <div id="logo"></div>
+            <div id="user-info">
+                <button>My Vacations</button>
+            </div>
+        </div>
+        <div id="vacations"></div>
+    </div>
+
+    <div id="attractions-bar">
+        <h2>Attractions</h2>
+        <div id="attractions-container"></div>
+            <ul id="attraction-ul">
+            </ul>
+        <button>+</button>
+    </div>
+
+    <div id="modal">
+        <div id="modal-content">
+            <p>text</p>
         </div>
     </div>
-    <div id="vacations"></div>
-</div>
-
-<div id="attractions-bar">
-    <h2>Attractions</h2>
-    <div id="attractions-container"></div>
-    <button>+</button>
-</div>
-
-<div id="modal">
-    <div id="modal-content">
-        <p>text</p>
-    </div>
-</div>
+    <script src="src/index.js"></script>
 </body>
 
+</html>
