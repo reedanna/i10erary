@@ -15,30 +15,44 @@ body {
     top: 15px;
     left: 15px;
     background: #A8DADC;
+   
+    
 }
 
 #destinations-bar li{
     list-style-type: none;
     
-    
 }
+
 .block {
     display: inline-block;
-    width: 100px;
+    width: 120px;
     height: 100px;
-    background-color:#787b80;
+    background-color:#1D3557;
     border-style: outset;
     margin-bottom: 10px; 
-    
+    margin-right: 30px;
+    margin-left: -20px;
   }
 
 .block img {
-    width: 95px;
+    width: 110px;
     height: 60px;
+    
+}
+
+.block p {
+    margin-top: 1px;
+    color: #A8DADC;
 }
 
   #destinations-container {
     text-align: center;
+    max-height: 620px;
+    max-width: auto;
+    background-color: #79dbdf;
+    overflow-y: scroll;
+    
   }
 
 h2 {
@@ -79,11 +93,30 @@ button:active {
     bottom: 15px;
     right: 15px;
     background: #A8DADC;
+    max-height: 120px;
+    max-width: 1000px;
+}
+
+#attractions-container {
+    /* background-color: #A31420; */
+    margin-top: -525px;
+    margin-left: 500px;
+    max-height: 1100px;
+    max-width: 120px;
+    transform: rotate(-90deg);
+    overflow-y: scroll;
 }
 
 #attractions-bar li {
     list-style-type: none;
-    display: inline;
+    transform: rotate(90deg);
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 20px;
+}
+
+#attractions-bar p {
+    text-align: center;
 }
 
 
