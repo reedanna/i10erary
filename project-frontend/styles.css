@@ -17,6 +17,30 @@ body {
     background: #A8DADC;
 }
 
+#destinations-bar li{
+    list-style-type: none;
+    
+    
+}
+.block {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background-color:#787b80;
+    border-style: outset;
+    margin-bottom: 10px; 
+    
+  }
+
+.block img {
+    width: 95px;
+    height: 60px;
+}
+
+  #destinations-container {
+    text-align: center;
+  }
+
 h2 {
     text-align: center;
     position: relative;
@@ -56,6 +80,12 @@ button:active {
     right: 15px;
     background: #A8DADC;
 }
+
+#attractions-bar li {
+    list-style-type: none;
+    display: inline;
+}
+
 
 #main-div {
     border-radius: 10px;
