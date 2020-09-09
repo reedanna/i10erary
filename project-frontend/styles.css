@@ -2,15 +2,19 @@
     font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
+body {
+    background: #1D3557;
+}
+
 #destinations-bar {
     border-radius: 10px;
-    min-height: 99.5%;
+    min-height: 95%;
     min-width: 10%;
-    border: 3px solid;
     box-sizing: border-box;
     position: fixed;
-    top: 2px;
-    left: 2px;
+    top: 15px;
+    left: 15px;
+    background: #A8DADC;
 }
 
 h2 {
@@ -18,38 +22,42 @@ h2 {
     position: relative;
     top: -15px;
     font-size: 22px;
+    color: #1D3557;
 }
 
 button {
     position: absolute;
-    bottom: 2px;
-    right: 2px;
+    bottom: 10px;
+    right: 10px;
     font-size: 32px;
     padding: 2px 10px;
-    background: white;
+    background: #E63946;
+    color: #F1FAEE;
+    border: 3px solid;
+    border-color:  #F1FAEE;
     border-radius: 5px;
 }
 
 #attractions-bar {
     border-radius: 10px;
-    min-height: 18%;
-    min-width: 89.5%;
-    border: 3px solid;
+    min-height: 15%;
+    min-width: 85%;
     box-sizing: border-box;
     position: fixed;
-    bottom: 2px;
-    right: 2px;
+    bottom: 15px;
+    right: 15px;
+    background: #A8DADC;
 }
 
 #main-div {
     border-radius: 10px;
-    min-height: 81.5%;
-    min-width: 89.5%;
-    border: 3px solid;
+    min-height: 80%;
+    min-width: 85%;
     box-sizing: border-box;
     position: fixed;
-    right: 2px;
-    top: 0;
+    right: 15px;
+    top: 15px;
+    background: #A8DADC;
 }
 
 #header {
@@ -60,12 +68,13 @@ button {
 
 #vacations {
     min-height: 80%;
-    min-width: 99%;
-    border: 3px solid;
+    min-width: 95%;
     border-radius: 10px;
     position: absolute;
-    bottom: 2px;
-    margin: 2px;
+    bottom: 10px;
+    right: 20px;
+    margin: 10px;
+    background: #F1FAEE;
 }
 
 #modal {
@@ -82,9 +91,9 @@ button {
 }
 
 #modal-content {
-    background-color: #fefefe;
+    background-color: #F1FAEE;
     margin: auto;
     padding: 20px;
-    border: 1px solid #888;
+    border: 1px solid #457B9D;
     width: 80%; 
 }
