@@ -16,21 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
     newDestinationButton = document.querySelector("#add-destination")
     newAttractionButton = document.querySelector("#add-attraction");
 
-    fetch("http://localhost:3000/destinations")
-        .then(function (response) {
-            return response.json()
-        })
-        .then(function (json) {
-            renderDestinations(json)
-        })
-
-    fetch("http://localhost:3000/attractions")
-        .then(function (response) {
-            return response.json()
-        })
-        .then(function (json) {
-            renderAttractions(json)
-        })
+    renderDestinations();
+    renderAttractions();
 
     newDestinationButton.addEventListener("click", () => {
         renderNewForm("Destination");
@@ -43,22 +30,30 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 })
 
-function renderDestinations(destinations) {
-    destinations.forEach(destination => {
+function renderDestinations() {
+    destinationUl.innerHTML = "";
+    fetch("http://localhost:3000/destinations")
+        .then(function (response) {
+            return response.json()
+        })
+        .then(function (json) {
 
-        let li = document.createElement("li")
-        li.innerHTML =
-            `<div class="block">
-        <img src=${destination.image}>
-        <p>${destination.name}</p>`
-        li.setAttribute("data-id", destination.id)
+            json.forEach(destination => {
 
-        li.addEventListener("click", () => {
-            describeLocation(destination, true);
-        });
+                let li = document.createElement("li")
+                li.innerHTML =
+                    `<div class="block">
+                    <img src=${destination.image}>
+                    <p>${destination.name}</p>`
+                li.setAttribute("data-id", destination.id)
 
-        destinationUl.append(li)
-    })
+                li.addEventListener("click", () => {
+                    describeLocation(destination, true);
+                });
+
+                destinationUl.append(li)
+            })
+        })
 }
 
 function describeLocation(location, isDestination) {
@@ -79,21 +74,28 @@ function describeLocation(location, isDestination) {
 }
 
 function renderAttractions(attractions) {
-    attractions.forEach(attraction => {
+    attractionUl.innerHTML = "";
+    fetch("http://localhost:3000/attractions")
+        .then(function (response) {
+            return response.json()
+        })
+        .then(function (json) {
+            json.forEach(attraction => {
 
-        let li = document.createElement("li")
-        li.innerHTML =
-            `<div class="block">
-        <img src=${attraction.image}>
-        <p>${attraction.name}</p>`
-        li.setAttribute("data-id", attraction.id)
+                let li = document.createElement("li")
+                li.innerHTML =
+                    `<div class="block">
+                    <img src=${attraction.image}>
+                     <p>${attraction.name}</p>`
+                li.setAttribute("data-id", attraction.id)
 
-        li.addEventListener("click", () => {
-            describeLocation(attraction, false);
-        });
+                li.addEventListener("click", () => {
+                    describeLocation(attraction, false);
+                });
 
-        attractionUl.append(li)
-    })
+                attractionUl.append(li)
+            })
+        })
 }
 
 function renderNewForm(destinationOrAttraction) {
@@ -134,4 +136,42 @@ function renderNewForm(destinationOrAttraction) {
           class="submit"
         />
       </form>`
+    const newForm = modalContent.querySelector("form");
+    newForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (newForm.id == "new-Attraction") {
+            fetch("http://localhost:3000/attractions", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "name": newForm.name.value,
+                    "description": newForm.description.value,
+                    "image": newForm.image.value
+                })
+            })
+            .then((response) => {
+                modal.style.display = "none";
+                renderAttractions();
+            })
+        }
+        else {
+            fetch("http://localhost:3000/destinations", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "name": newForm.name.value,
+                    "description": newForm.description.value,
+                    "image": newForm.image.value,
+                })
+            })
+            .then((response) => {
+                modal.style.display = "none";
+                renderDestinations();
+            })
+        };
+    })
 }

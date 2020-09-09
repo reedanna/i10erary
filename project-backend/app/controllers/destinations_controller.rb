@@ -11,7 +11,7 @@ class DestinationsController < ApplicationController
     end
 
     def create
-        destination = Destination.new(params)
+        destination = Destination.new(destination_params)
         destination.save
     end
 
@@ -23,6 +23,11 @@ class DestinationsController < ApplicationController
     def destroy
         destination = Destination.find(params[:id])
         destination.destroy
+    end
+
+    private
+    def destination_params
+        params.require(:destination).permit(:name, :image, :description)
     end
 
 end
