@@ -38,6 +38,14 @@ button {
     border-radius: 5px;
 }
 
+button:hover {
+    background: #A31420;
+}
+
+button:active {
+    background: #EC5B67;
+}
+
 #attractions-bar {
     border-radius: 10px;
     min-height: 15%;
