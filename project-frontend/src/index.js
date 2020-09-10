@@ -6,6 +6,7 @@ let closeModalButton = ""
 let newDestinationButton = ""
 let newAttractionButton = ""
 let attractionsTitle = ""
+let vacationMain = ""
 
 let currentDestination = ""
 
@@ -19,9 +20,11 @@ document.addEventListener("DOMContentLoaded", () => {
     newDestinationButton = document.querySelector("#add-destination")
     newAttractionButton = document.querySelector("#add-attraction");
     attractionsTitle = document.querySelector("#attractions-bar h2");
+    vacationMain = document.querySelector("#vacations")
 
     renderDestinations();
     renderAttractions();
+    renderVacations();
 
     newDestinationButton.addEventListener("click", () => {
         renderNewForm("Destination");
@@ -56,6 +59,28 @@ function renderDestinations() {
                 });
 
                 destinationUl.append(li)
+            })
+        })
+}
+
+function renderVacations() {
+    vacationMain.innerHTML = "";
+    fetch("http://localhost:3000/trips")
+        .then(function (response) {
+            return response.json()
+        })
+        .then(function (json) {
+
+            json.forEach(trip => {
+
+                let li = document.createElement("button")
+                li.innerText =
+                    `My Vacation in ${trip.destination.name}</div>`
+                li.addEventListener("click", () => {
+                    console.log("clicked");
+                });
+
+                vacationMain.append(li)
             })
         })
 }

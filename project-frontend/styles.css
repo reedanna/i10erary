@@ -144,14 +144,15 @@ button:active {
 }
 
 #vacations {
-    min-height: 80%;
-    min-width: 95%;
+    height: 80%;
+    width: 95%;
     border-radius: 10px;
     position: absolute;
     bottom: 10px;
     right: 20px;
     margin: 10px;
     background: #F1FAEE;
+    overflow-y: scroll;
 }
 
 .modal {
@@ -189,4 +190,5 @@ button:active {
     float: right;
     width: 70%;
 }
+
 
