@@ -5,6 +5,9 @@ let modalContent = ""
 let closeModalButton = ""
 let newDestinationButton = ""
 let newAttractionButton = ""
+let attractionsTitle = ""
+
+let currentDestination = ""
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -15,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     closeModalButton = document.querySelector("#close-modal")
     newDestinationButton = document.querySelector("#add-destination")
     newAttractionButton = document.querySelector("#add-attraction");
+    attractionsTitle = document.querySelector("#attractions-bar h2");
 
     renderDestinations();
     renderAttractions();
@@ -66,6 +70,11 @@ function describeLocation(location, isDestination) {
     let addButton = document.createElement("button");
     if (isDestination == true) {
         addButton.innerHTML = "Create a Vacation Here";
+        modalContent.querySelector("#description").append(addButton);
+        addButton.addEventListener("click", () => {
+            currentDestination = location;
+            renderAttractions();
+        });
     }
     else {
         addButton.innerHTML = "Visit Here";
@@ -74,6 +83,12 @@ function describeLocation(location, isDestination) {
 }
 
 function renderAttractions(attractions) {
+    if (currentDestination == "") {
+        attractionsTitle.innerHTML = "Choose a Destination to View Attractions";
+    }
+    else {
+        attractionsTitle.innerHTML = `Attractions in ${currentDestination.name}`;
+    }
     attractionUl.innerHTML = "";
     fetch("http://localhost:3000/attractions")
         .then(function (response) {
@@ -82,18 +97,20 @@ function renderAttractions(attractions) {
         .then(function (json) {
             json.forEach(attraction => {
 
-                let li = document.createElement("li")
-                li.innerHTML =
-                    `<div class="block">
+                if (attraction.destination_id === currentDestination.id) {
+                    let li = document.createElement("li")
+                    li.innerHTML =
+                        `<div class="block">
                     <img src=${attraction.image}>
                      <p>${attraction.name}</p>`
-                li.setAttribute("data-id", attraction.id)
+                    li.setAttribute("data-id", attraction.id)
 
-                li.addEventListener("click", () => {
-                    describeLocation(attraction, false);
-                });
+                    li.addEventListener("click", () => {
+                        describeLocation(attraction, false);
+                    });
 
-                attractionUl.append(li)
+                    attractionUl.append(li)
+                }
             })
         })
 }
@@ -148,13 +165,15 @@ function renderNewForm(destinationOrAttraction) {
                 body: JSON.stringify({
                     "name": newForm.name.value,
                     "description": newForm.description.value,
-                    "image": newForm.image.value
+                    "image": newForm.image.value,
+                    "destination_id": currentDestination.id
                 })
             })
-            .then((response) => {
-                modal.style.display = "none";
-                renderAttractions();
-            })
+                .then((response) => {
+                    modal.style.display = "none";
+                    console.log()
+                    renderAttractions();
+                })
         }
         else {
             fetch("http://localhost:3000/destinations", {
@@ -168,10 +187,10 @@ function renderNewForm(destinationOrAttraction) {
                     "image": newForm.image.value,
                 })
             })
-            .then((response) => {
-                modal.style.display = "none";
-                renderDestinations();
-            })
+                .then((response) => {
+                    modal.style.display = "none";
+                    renderDestinations();
+                })
         };
     })
 }

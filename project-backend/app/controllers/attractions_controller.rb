@@ -11,7 +11,7 @@ class AttractionsController < ApplicationController
     end
 
     def create
-        attraction = Attraction.new(params)
+        attraction = Attraction.new(attraction_params)
         attraction.save
     end
 
@@ -23,5 +23,10 @@ class AttractionsController < ApplicationController
     def destroy
         attraction = Attraction.find(params[:id])
         attraction.destroy
+    end
+
+    private
+    def attraction_params
+        params.require(:attraction).permit(:name, :image, :description, :destination_id)
     end
 end
