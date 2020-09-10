@@ -11,7 +11,7 @@ class UsersController < ApplicationController
     end
     
     def create
-        @user = User.new(params)
+        @user = User.new(user_params)
         @user.save
     end
 
@@ -19,5 +19,12 @@ class UsersController < ApplicationController
         @user = User.find(params[:id])
         @user.destroy
     end
+
+    private
+
+    def user_params
+        params.require(:user).permit(:name, :email)
+    end
+
 
 end

@@ -5,6 +5,14 @@ let modalContent = ""
 let closeModalButton = ""
 let newDestinationButton = ""
 let newAttractionButton = ""
+let signupModal = ""
+let loginModal = ""
+let signupButton = ""
+let signupClose = ""
+let loginClose = ""
+let signupForm = ""
+let loginForm = ""
+let userInfoDiv = ""
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -15,6 +23,15 @@ document.addEventListener("DOMContentLoaded", () => {
     closeModalButton = document.querySelector("#close-modal")
     newDestinationButton = document.querySelector("#add-destination")
     newAttractionButton = document.querySelector("#add-attraction");
+    signupModal = document.querySelector(".signup-modal")
+    signupButton = document.querySelector("#signup-title")
+    signupClose = document.querySelector("#signup-close-modal")
+    signupForm = document.querySelector(".signup-form")
+    userInfoDiv = document.querySelector("#user-info")
+    loginButton = document.querySelector("#login-text")
+    loginModal = document.querySelector(".login-modal")
+    loginClose = document.querySelector("#login-close-modal")
+    loginForm = document.querySelector(".login-form")
 
     fetch("http://localhost:3000/destinations")
         .then(function (response) {
@@ -32,6 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
             renderAttractions(json)
         })
 
+
     newDestinationButton.addEventListener("click", () => {
         renderNewForm("Destination");
     })
@@ -41,6 +59,12 @@ document.addEventListener("DOMContentLoaded", () => {
     closeModalButton.addEventListener("click", () => {
         modal.style.display = "none";
     })
+    signupButton.addEventListener("click", renderSignupForm)
+    signupClose.addEventListener("click", closeSignupForm)
+    signupForm.addEventListener("submit", submitNewUser)
+    loginButton.addEventListener("click", renderLoginForm)
+    loginClose.addEventListener("click", closeLoginForm)
+    loginForm.addEventListener("submit", findUser)
 })
 
 function renderDestinations(destinations) {
@@ -135,3 +159,55 @@ function renderNewForm(destinationOrAttraction) {
         />
       </form>`
 }
+
+function renderSignupForm() {
+    signupModal.style.display = "flex"
+}
+function closeSignupForm() {
+    signupModal.style.display = "none"
+}
+function renderLoginForm() {
+    loginModal.style.display = "flex"
+}
+function closeLoginForm() {
+    loginModal.style.display = "none"
+}
+
+function submitNewUser() {
+
+    fetch(`http://localhost:3000/users`, {
+        method: 'POST',
+        headers:
+        {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({
+            "name": signupForm[0].value,
+            "email": signupForm[1].value
+        })
+    })
+}
+
+function findUser() {
+    fetch("http://localhost:3000/users")
+        .then(function (response) {
+            return response.json()
+        })
+        .then(function (json) {
+            let isAUser = false
+            json.forEach(user => {
+                if (user.name == loginForm[0].value && user.email == loginForm[1].value) {
+                    isAUser = true
+                    let nameH2 = document.createElement("h2")
+                    nameH2.innerText = `Logged in as ${user.name}`
+                    userInfoDiv.append(nameH2)
+                    closeLoginForm()
+                }
+            })
+                if (isAUser == false) { alert("User not found") }
+                
+        })
+        event.preventDefault()
+}
+
