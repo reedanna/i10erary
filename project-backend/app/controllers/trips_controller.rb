@@ -3,7 +3,7 @@ class TripsController < ApplicationController
     def index
         @trips = Trip.all
 
-        render json: @trips, except: [:created_at, :updated_at]
+        render json: @trips, except: [:created_at, :updated_at], include: [:destination]
     end
     
     def show
@@ -21,6 +21,12 @@ class TripsController < ApplicationController
 
     def destroy
         Trip.find(params[:id]).destroy
-      end
+    end
+
+    private
+
+    def trip_params
+        params.require(:trip).permit(:user_id, :destination_id, :length)
+    end
  
 end
