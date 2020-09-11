@@ -232,43 +232,48 @@ function describeLocation(location, isDestination) {
         addButton.innerHTML = "Create a Vacation Here";
         modalContent.querySelector("#description").append(addButton);
         addButton.addEventListener("click", () => {
+            // createVacation();
             currentDestination = location;
-            fetch("http://localhost:3000/trips", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    "user_id": currentUser.id,
-                    "destination_id": currentDestination.id,
-                    "length": 1
-                })
-            })
-                .then(response => response.json())
-                .then((result) => {
-                    modal.style.display = "none";
-                    currentTrip = result;
-                    fetch("http://localhost:3000/days",
-                        {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify({
-                                "trip_id": currentTrip.id,
-                                "date": 1
-                            })
-                        })
-                        .then(response => {
-                            renderVacationInfo(currentTrip);
-                        })
-                });
+            createVacation();
         })
     }
     else {
         addButton.innerHTML = "Visit Here";
     }
     modalContent.querySelector("#description").append(addButton);
+}
+
+function createVacation() {
+    fetch("http://localhost:3000/trips", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "user_id": currentUser.id,
+            "destination_id": currentDestination.id,
+            "length": 1
+        })
+    })
+        .then(response => response.json())
+        .then((result) => {
+            modal.style.display = "none";
+            currentTrip = result;
+            fetch("http://localhost:3000/days",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "trip_id": currentTrip.id,
+                        "date": 1
+                    })
+                })
+                .then(response => {
+                    renderVacationInfo(currentTrip);
+                })
+        });
 }
 
 function renderAttractions(attractions) {
