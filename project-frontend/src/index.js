@@ -439,6 +439,7 @@ function findUser() {
                     isAUser = true
                     let nameH2 = document.createElement("h2")
                     nameH2.innerText = `Logged in as ${user.name}`
+                    nameH2.classList.add("logged-name")
                     userInfoDiv.append(nameH2)
                     loginButton.style.display = "none"
                     signupButton.style.display = "none"
