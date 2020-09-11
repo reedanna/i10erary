@@ -110,19 +110,16 @@ function renderVacations() {
             return response.json()
         })
         .then(function (json) {
+            const usersTrips = json.filter(trip => trip.user_id === currentUser.id);
+            usersTrips.forEach(trip => {
+                let li = document.createElement("button")
+                li.innerText =
+                    `My Vacation in ${trip.destination.name} >`
+                li.addEventListener("click", () => {
+                    renderVacationInfo(trip);
+                });
 
-            json.forEach(trip => {
-
-                if (trip.user_id === currentUser.id) {
-                    let li = document.createElement("button")
-                    li.innerText =
-                        `My Vacation in ${trip.destination.name} >`
-                    li.addEventListener("click", () => {
-                        renderVacationInfo(trip);
-                    });
-
-                    vacationMain.append(li)
-                }
+                vacationMain.append(li)
             })
         })
 }
@@ -143,39 +140,37 @@ function renderVacationInfo(trip) {
             return response.json()
         })
         .then(function (json) {
-            json.forEach(day => {
-
-                if (day.trip_id === trip.id) {
-                    let dayDiv = document.createElement("div");
-                    dayDiv.classList.add("day-div");
-                    let titleText = document.createElement("h3");
-                    titleText.innerText = `Day ${day.date} in ${trip.destination.name}`;
-                    dayDiv.append(titleText);
-                    day.visits.forEach(visit => {
-                        let visitInfo = document.createElement("div");
-                        visitInfo.classList.add("visit-info");
-                        day.attractions.forEach(attraction => {
-                            if (attraction.id === visit.attraction_id) {
-                                visitInfo.innerHTML =
-                                    `<p>${attraction.name}</p>
+            const tripsDays = json.filter(day => day.trip_id == trip.id);
+            tripsDays.forEach(day => {
+                let dayDiv = document.createElement("div");
+                dayDiv.classList.add("day-div");
+                let titleText = document.createElement("h3");
+                titleText.innerText = `Day ${day.date} in ${trip.destination.name}`;
+                dayDiv.append(titleText);
+                day.visits.forEach(visit => {
+                    let visitInfo = document.createElement("div");
+                    visitInfo.classList.add("visit-info");
+                    const daysAttractions = day.attractions.filter(attraction => attraction.id === visit.attraction_id);
+                    daysAttractions.forEach(attraction => {
+                        visitInfo.innerHTML =
+                            `<p>${attraction.name}</p>
                                     <button class="back-button"><</button>
                                     <button class="forward-button">></button>
                                     <button class="delete-visit-button">-</button>`;
-                            };
-                        });
-                        dayDiv.append(visitInfo);
-                        visitInfo.querySelector(".delete-visit-button").addEventListener("click", () => {
-                            deleteVisit(visit);
-                        });
-                        visitInfo.querySelector(".back-button").addEventListener("click", () => {
-                            moveVisitBack(visit, day);
-                        });
-                        visitInfo.querySelector(".forward-button").addEventListener("click", () => {
-                            moveVisitForward(visit, day);
-                        });
+
                     });
-                    vacationMain.append(dayDiv);
-                }
+                    dayDiv.append(visitInfo);
+                    visitInfo.querySelector(".delete-visit-button").addEventListener("click", () => {
+                        deleteVisit(visit);
+                    });
+                    visitInfo.querySelector(".back-button").addEventListener("click", () => {
+                        moveVisitBack(visit, day);
+                    });
+                    visitInfo.querySelector(".forward-button").addEventListener("click", () => {
+                        moveVisitForward(visit, day);
+                    });
+                });
+                vacationMain.append(dayDiv);
             })
         })
     let buttonsDiv = document.createElement("div");
@@ -211,12 +206,7 @@ function deleteVisit(visit) {
 function moveVisitForward(visit, day) {
     if (day.date !== currentTrip.length) {
         let newDate = day.date + 1;
-        let newDay = "";
-        currentTrip.days.forEach(day => {
-            if (day.date == newDate) {
-                newDay = day;
-            }
-        })
+        let newDay = currentTrip.days.find(day => day.date === newDate)
         fetch(`http://localhost:3000/visits/${visit.id}`,
             {
                 method: "PATCH",
@@ -236,12 +226,7 @@ function moveVisitForward(visit, day) {
 function moveVisitBack(visit, day) {
     if (day.date !== 1) {
         let newDate = day.date - 1;
-        let newDay = "";
-        currentTrip.days.forEach(day => {
-            if (day.date == newDate) {
-                newDay = day;
-            }
-        })
+        let newDay = currentTrip.days.find(day => day.date === newDate);
         fetch(`http://localhost:3000/visits/${visit.id}`,
             {
                 method: "PATCH",
@@ -302,16 +287,15 @@ function subtractDay() {
         })
         .then(response => {
             const dayID = currentTrip.days[currentTrip.length - 1].id;
-            currentTrip.visits.forEach(visit => {
-                if (visit.day_id === dayID) {
-                    fetch(`http://localhost:3000/visits/${visit.id}`,
-                        {
-                            method: "DELETE",
-                            headers: {
-                                "Content-Type": "application/json"
-                            }
-                        })
-                }
+            const daysVisits = currentTrip.visits.filter(visit => visit.day_id === dayID);
+            daysVisits.forEach(visit => {
+                fetch(`http://localhost:3000/visits/${visit.id}`,
+                    {
+                        method: "DELETE",
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    })
             })
             fetch(`http://localhost:3000/days/${dayID}`,
                 {
@@ -415,22 +399,20 @@ function renderAttractions(attractions) {
             return response.json()
         })
         .then(function (json) {
-            json.forEach(attraction => {
-
-                if (attraction.destination_id === currentDestination.id) {
-                    let li = document.createElement("li")
-                    li.innerHTML =
-                        `<div class="block">
+            const destinationsAttractions = json.filter(attraction => attraction.destination_id === currentDestination.id);
+            destinationsAttractions.forEach(attraction => {
+                let li = document.createElement("li")
+                li.innerHTML =
+                    `<div class="block">
                     <img src=${attraction.image}>
                      <p>${attraction.name}</p>`
-                    li.setAttribute("data-id", attraction.id)
+                li.setAttribute("data-id", attraction.id)
 
-                    li.addEventListener("click", () => {
-                        describeLocation(attraction, false);
-                    });
+                li.addEventListener("click", () => {
+                    describeLocation(attraction, false);
+                });
 
-                    attractionUl.append(li)
-                }
+                attractionUl.append(li)
             })
         })
 }
