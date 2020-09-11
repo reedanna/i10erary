@@ -13,7 +13,8 @@ body {
     position: fixed;
     top: 15px;
     left: 15px;
-    background: #A8DADC;
+    /* background: #A8DADC; */
+    background-color: rgba(95, 193, 231, 0.8); 
    
     
 }
@@ -48,8 +49,9 @@ body {
   #destinations-container {
     text-align: center;
     max-height: 620px;
-    max-width: auto;
-    background-color: #79dbdf;
+    width: 165px;
+    /* background-color: #79dbdf; */
+    /* background-color: rgba(95, 193, 231, 0.8); */
     overflow-y: scroll;
     
   }
@@ -96,7 +98,8 @@ button:active {
     position: fixed;
     bottom: 15px;
     right: 15px;
-    background: #A8DADC;
+    /* background: #A8DADC; */
+    background-color: rgba(95, 193, 231, 0.8); 
     border: 3px solid #457B9D;
     max-height: 120px;
     max-width: 1000px;
@@ -133,7 +136,8 @@ button:active {
     position: fixed;
     right: 15px;
     top: 10px;
-    background: #A8DADC;
+    /* background: #A8DADC; */
+    background-color: rgba(95, 193, 231, 0.8);
     border: 3px solid #457B9D;
 }
 
@@ -283,9 +287,40 @@ button:active {
     left: 5px;
     cursor: pointer;
 }
+#signup-title:hover {
+    color: white;
+    animation: shake 0.5s;
+}
 #login-text {
     position: absolute;
     left: 80px;
     cursor: pointer;
 }
+#login-text:hover {
+    color: white;
+    animation: shake 0.5s;
+}
+#logout-title {
+    position: absolute;
+    left: 5px;
+    cursor: pointer;
+}
+#logout-title:hover {
+    color: white;
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+  }
 

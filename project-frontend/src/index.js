@@ -12,11 +12,12 @@ let signupClose = ""
 let loginClose = ""
 let signupForm = ""
 let loginForm = ""
+let logoutButton = ""
 let userInfoDiv = ""
 let attractionsTitle = ""
 let vacationMain = ""
-
 let currentDestination = ""
+
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -33,11 +34,16 @@ document.addEventListener("DOMContentLoaded", () => {
     signupForm = document.querySelector(".signup-form")
     userInfoDiv = document.querySelector("#user-info")
     loginButton = document.querySelector("#login-text")
+    logoutButton = document.querySelector("#logout-title")
     loginModal = document.querySelector(".login-modal")
     loginClose = document.querySelector("#login-close-modal")
     loginForm = document.querySelector(".login-form")
     attractionsTitle = document.querySelector("#attractions-bar h2");
     vacationMain = document.querySelector("#vacations")
+
+    logoutButton.style.display = "none"
+
+    
 
     renderDestinations();
     renderAttractions();
@@ -59,6 +65,8 @@ document.addEventListener("DOMContentLoaded", () => {
     loginButton.addEventListener("click", renderLoginForm)
     loginClose.addEventListener("click", closeLoginForm)
     loginForm.addEventListener("submit", findUser)
+    logoutButton.addEventListener("click", logout)
+    
 })
 
 function renderDestinations() {
@@ -77,7 +85,7 @@ function renderDestinations() {
                     <img src=${destination.image}>
                     <p>${destination.name}</p>`
                 li.setAttribute("data-id", destination.id)
-
+                li.addEventListener("click", destinationBackground)
                 li.addEventListener("click", () => {
                     describeLocation(destination, true);
                 });
@@ -281,12 +289,15 @@ function findUser() {
         .then(function (json) {
             let isAUser = false
             json.forEach(user => {
-                console.log(user);
+                
                 if (user.name == loginForm[0].value && user.email == loginForm[1].value) {
                     isAUser = true
                     let nameH2 = document.createElement("h2")
                     nameH2.innerText = `Logged in as ${user.name}`
                     userInfoDiv.append(nameH2)
+                    loginButton.style.display = "none"
+                    signupButton.style.display = "none"
+                    logoutButton.style.display = "flex"
                     closeLoginForm()
                 }
             })
@@ -295,4 +306,18 @@ function findUser() {
         })
     event.preventDefault()
 }
+
+function logout() {
+    window.location.reload(true)
+}
+
+function destinationBackground(event) {
+    const destinationId = event.currentTarget.dataset.id
+    fetch(`http://localhost:3000/destinations/${destinationId}`)
+    .then(response => response.json())
+    .then(destination => {
+        document.body.style.backgroundImage = `url(${destination.image})`;
+    })
+}
+
 
