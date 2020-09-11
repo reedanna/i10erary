@@ -67,14 +67,20 @@ h2 {
 button {
     font-size: 32px;
     padding: 2px 10px;
+    margin: 3px;
     background: #E63946;
     color: #F1FAEE;
     border: none;
     border-radius: 5px;
     box-shadow: 0 3px #A31420;
+    display: block;
 }
 
-#attractions-bar button, #destinations-bar button, #main-div button {
+#buttons-div {
+    float:right;
+}
+
+#attractions-bar button, #destinations-bar button, #header button {
     position: absolute;
     bottom: 15px;
     right: 10px;
@@ -323,4 +329,19 @@ button:active {
     90% { transform: translate(1px, 2px) rotate(0deg); }
     100% { transform: translate(1px, -2px) rotate(-1deg); }
   }
+
+.day-div {
+    border-radius: 10px;
+    height: 400px;
+    width: 200px;
+    margin: 10px;
+    background: #457B9D;
+    display: inline-block;
+}
+
+.day-div h3 {
+    text-align: center;
+    font-size: 16px;
+    color: #F1FAEE;
+}
 

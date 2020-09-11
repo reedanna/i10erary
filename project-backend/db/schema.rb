@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 2020_09_04_191428) do
 
   create_table "days", force: :cascade do |t|
     t.integer "trip_id", null: false
-    t.date "date"
+    t.integer "date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["trip_id"], name: "index_days_on_trip_id"
