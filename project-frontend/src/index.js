@@ -157,7 +157,9 @@ function renderVacationInfo(trip) {
                                     <button class="back-button"><</button>
                                     <button class="forward-button">></button>
                                     <button class="delete-visit-button">-</button>`;
-
+                        visitInfo.querySelector("p").addEventListener("click", () => {
+                            describeLocation(attraction, false);
+                        })
                     });
                     dayDiv.append(visitInfo);
                     visitInfo.querySelector(".delete-visit-button").addEventListener("click", () => {
