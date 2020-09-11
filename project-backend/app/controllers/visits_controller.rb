@@ -12,14 +12,21 @@ class VisitsController < ApplicationController
     end
 
     def create
-        render :json => Visit.create(
-            day_id: params[:day_id], 
-            attraction_id: params[:attraction_id],
-            rating: params[:rating] 
-          )
+        @visit = Visit.new(visit_params);
+        @visit.save
     end
 
     def destroy
         Visit.find(params[:id]).destroy
-      end
+    end
+
+    def update
+        @visit = Visit.find(params[:id])
+        @visit.update(visit_params)
+    end
+
+    private
+    def visit_params
+        params.require(:visit).permit(:day_id, :attraction_id, :rating);
+    end
 end

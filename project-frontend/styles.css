@@ -334,12 +334,12 @@ button:active {
   }
 
 .day-div {
+    float:left;
     border-radius: 10px;
-    height: 400px;
+    min-height: 400px;
     width: 200px;
     margin: 10px;
     background: #457B9D;
-    display: inline-block;
 }
 
 .day-div h3 {
@@ -399,4 +399,18 @@ button:active {
     
 }
 
+.visit-info {
+    background: #1D3557;
+    margin: 2px;
+    border-radius: 10px;
+    width: 190px;
+    color: #F1FAEE;
+    margin:auto;
+    text-align: center;
+}
+
+.visit-info button {
+    display: inline-block;
+    font-size: 12px;
+}
 

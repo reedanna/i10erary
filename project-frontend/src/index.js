@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     logoutButton.style.display = "none"
 
-    
+
 
     renderDestinations();
     renderAttractions();
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loginClose.addEventListener("click", closeLoginForm)
     loginForm.addEventListener("submit", findUser)
     logoutButton.addEventListener("click", logout)
-    
+
 })
 
 function renderDestinations() {
@@ -110,19 +110,16 @@ function renderVacations() {
             return response.json()
         })
         .then(function (json) {
+            const usersTrips = json.filter(trip => trip.user_id === currentUser.id);
+            usersTrips.forEach(trip => {
+                let li = document.createElement("button")
+                li.innerText =
+                    `My Vacation in ${trip.destination.name} >`
+                li.addEventListener("click", () => {
+                    renderVacationInfo(trip);
+                });
 
-            json.forEach(trip => {
-
-                if (trip.user_id === currentUser.id) {
-                    let li = document.createElement("button")
-                    li.innerText =
-                        `My Vacation in ${trip.destination.name} >`
-                    li.addEventListener("click", () => {
-                        renderVacationInfo(trip);
-                    });
-
-                    vacationMain.append(li)
-                }
+                vacationMain.append(li)
             })
         })
 }
@@ -143,16 +140,37 @@ function renderVacationInfo(trip) {
             return response.json()
         })
         .then(function (json) {
-            json.forEach(day => {
+            const tripsDays = json.filter(day => day.trip_id == trip.id);
+            tripsDays.forEach(day => {
+                let dayDiv = document.createElement("div");
+                dayDiv.classList.add("day-div");
+                let titleText = document.createElement("h3");
+                titleText.innerText = `Day ${day.date} in ${trip.destination.name}`;
+                dayDiv.append(titleText);
+                day.visits.forEach(visit => {
+                    let visitInfo = document.createElement("div");
+                    visitInfo.classList.add("visit-info");
+                    const daysAttractions = day.attractions.filter(attraction => attraction.id === visit.attraction_id);
+                    daysAttractions.forEach(attraction => {
+                        visitInfo.innerHTML =
+                            `<p>${attraction.name}</p>
+                                    <button class="back-button"><</button>
+                                    <button class="forward-button">></button>
+                                    <button class="delete-visit-button">-</button>`;
 
-                if (day.trip_id === trip.id) {
-                    let dayDiv = document.createElement("div")
-                    dayDiv.classList.add("day-div");
-                    let titleText = document.createElement("h3");
-                    titleText.innerText = `Day ${day.date} in ${trip.destination.name}`;
-                    dayDiv.append(titleText);
-                    vacationMain.append(dayDiv);
-                }
+                    });
+                    dayDiv.append(visitInfo);
+                    visitInfo.querySelector(".delete-visit-button").addEventListener("click", () => {
+                        deleteVisit(visit);
+                    });
+                    visitInfo.querySelector(".back-button").addEventListener("click", () => {
+                        moveVisitBack(visit, day);
+                    });
+                    visitInfo.querySelector(".forward-button").addEventListener("click", () => {
+                        moveVisitForward(visit, day);
+                    });
+                });
+                vacationMain.append(dayDiv);
             })
         })
     let buttonsDiv = document.createElement("div");
@@ -171,6 +189,60 @@ function renderVacationInfo(trip) {
         subtractDay();
     })
 }
+
+function deleteVisit(visit) {
+    fetch(`http://localhost:3000/visits/${visit.id}`,
+        {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => {
+            renderVacationInfo(currentTrip);
+        });
+}
+
+function moveVisitForward(visit, day) {
+    if (day.date !== currentTrip.length) {
+        let newDate = day.date + 1;
+        let newDay = currentTrip.days.find(day => day.date === newDate)
+        fetch(`http://localhost:3000/visits/${visit.id}`,
+            {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "day_id": newDay.id
+                })
+            })
+            .then(response => {
+                renderVacationInfo(currentTrip);
+            });
+    }
+}
+
+function moveVisitBack(visit, day) {
+    if (day.date !== 1) {
+        let newDate = day.date - 1;
+        let newDay = currentTrip.days.find(day => day.date === newDate);
+        fetch(`http://localhost:3000/visits/${visit.id}`,
+            {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "day_id": newDay.id
+                })
+            })
+            .then(response => {
+                renderVacationInfo(currentTrip);
+            });
+    };
+}
+
 
 function addDay() {
     currentTrip.length = currentTrip.length + 1;
@@ -203,7 +275,6 @@ function addDay() {
 }
 
 function subtractDay() {
-    currentTrip.length = currentTrip.length - 1;
     fetch(`http://localhost:3000/trips/${currentTrip.id}`,
         {
             method: "PATCH",
@@ -211,11 +282,21 @@ function subtractDay() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                "length": currentTrip.length
+                "length": currentTrip.length - 1
             })
         })
         .then(response => {
-            const dayID = currentTrip.days[currentTrip.length].id;
+            const dayID = currentTrip.days[currentTrip.length - 1].id;
+            const daysVisits = currentTrip.visits.filter(visit => visit.day_id === dayID);
+            daysVisits.forEach(visit => {
+                fetch(`http://localhost:3000/visits/${visit.id}`,
+                    {
+                        method: "DELETE",
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    })
+            })
             fetch(`http://localhost:3000/days/${dayID}`,
                 {
                     method: "DELETE",
@@ -241,15 +322,35 @@ function describeLocation(location, isDestination) {
         addButton.innerHTML = "Create a Vacation Here";
         modalContent.querySelector("#description").append(addButton);
         addButton.addEventListener("click", () => {
-            // createVacation();
             currentDestination = location;
             createVacation();
         })
     }
     else {
         addButton.innerHTML = "Visit Here";
+        modalContent.querySelector("#description").append(addButton);
+        addButton.addEventListener("click", () => {
+            createVisit(location);
+        })
     }
-    modalContent.querySelector("#description").append(addButton);
+
+}
+
+function createVisit(attraction) {
+    fetch("http://localhost:3000/visits",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "day_id": currentTrip.days[0].id,
+                "attraction_id": attraction.id
+            })
+        })
+        .then(response => {
+            renderVacationInfo(currentTrip);
+        })
 }
 
 function createVacation() {
@@ -298,22 +399,20 @@ function renderAttractions(attractions) {
             return response.json()
         })
         .then(function (json) {
-            json.forEach(attraction => {
-
-                if (attraction.destination_id === currentDestination.id) {
-                    let li = document.createElement("li")
-                    li.innerHTML =
-                        `<div class="block">
+            const destinationsAttractions = json.filter(attraction => attraction.destination_id === currentDestination.id);
+            destinationsAttractions.forEach(attraction => {
+                let li = document.createElement("li")
+                li.innerHTML =
+                    `<div class="block">
                     <img src=${attraction.image}>
                      <p>${attraction.name}</p>`
-                    li.setAttribute("data-id", attraction.id)
+                li.setAttribute("data-id", attraction.id)
 
-                    li.addEventListener("click", () => {
-                        describeLocation(attraction, false);
-                    });
+                li.addEventListener("click", () => {
+                    describeLocation(attraction, false);
+                });
 
-                    attractionUl.append(li)
-                }
+                attractionUl.append(li)
             })
         })
 }
@@ -434,7 +533,7 @@ function findUser() {
         .then(function (json) {
             let isAUser = false
             json.forEach(user => {
-                
+
                 if (user.name == loginForm[0].value && user.email == loginForm[1].value) {
                     isAUser = true
                     let nameH2 = document.createElement("h2")
@@ -462,10 +561,10 @@ function logout() {
 function destinationBackground(event) {
     const destinationId = event.currentTarget.dataset.id
     fetch(`http://localhost:3000/destinations/${destinationId}`)
-    .then(response => response.json())
-    .then(destination => {
-        document.body.style.backgroundImage = `url(${destination.image})`;
-    })
+        .then(response => response.json())
+        .then(destination => {
+            document.body.style.backgroundImage = `url(${destination.image})`;
+        })
 }
 
 
