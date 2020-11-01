@@ -29,14 +29,14 @@ This program is a joint creation of Anna Reed and Chris Torres, created during o
 ![/login-gif.gif](/login-gif.gif)
 
 3. To begin planning a new vacation, scroll through the list of destinations on the left of the screen and choose the one you plan on visiting.
-![/selectdestination.gif](/selectdestination.gif)
+![/selectdestination.gif](/selectdestination.gif)<br>
 **Note:** If your desired destination isn't already on the list, you can add it by clicking on the "+" on the bottom of the list.
 
 4. Set your vacation to the desired number of days using the "+" and "-" buttons on the top right of the window.
 ![/adddays.gif](/adddays.gif)
 
 5. On the bottom of the window, there is a list of attractions at or near your destination city. Scroll through them and add any desired ones to your vacation.
-![/selectattractions.gif](/selectattractions.gif)
+![/selectattraction.gif](/selectattraction.gif)<br>
 **Note:** As with destinations, you can add missing attractions by clicking the "+" button on the right of the list.
 
 6. Once an attraction has been added to your itinerary, you can use use the arrow buttons to change the day you will be visiting it on, or the "-" button to take it off of your itinerary.
