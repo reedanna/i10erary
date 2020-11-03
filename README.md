@@ -56,3 +56,8 @@ Back end:
 - Ruby on Rails
 - ActiveRecord
 - SQLite
+
+## FUTURE IMPLEMENTATION GOALS
+- Ability for user to upload image files directly from computer
+- Ability for user to rate attractions
+- Ability to view other user ratings for each attraction and destination
